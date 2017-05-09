@@ -5,7 +5,7 @@ PS: x86_64 binary
 ./mxmap domain.com
 
 ex:
-
+~~~~
 ./mxmap.go superonlineshop.com.br
 
 ------------------------------------------------------
@@ -29,4 +29,4 @@ Testing VRFY postmaster@superonlineshop.com.br:  [- VRFY disallowed -]
 Testing VRFY postmaster:  [- VRFY disallowed -]
 Testing RCPT ENUM postmaster@superonlineshop.com.br:  [- RCPT enum allowed -]
 Testing RCPT ENUM postmaster:  [- RCPT enum disallowed -]
-
+~~~~
