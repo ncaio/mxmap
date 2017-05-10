@@ -1,5 +1,12 @@
 # mxmap
 
+Mxmap is a simple smtp scan that looking for: 
+Open relay;
+VRFY ENUM;
+RCPT ENUM.
+
+All ENUM tests has 2 process. First one a test with domain and second one without. Basicly you don't need a dicionary file for it. mxmap use postmaster account for that =]
+
 **PS: x86_64 binary**
 
 ~~~~
