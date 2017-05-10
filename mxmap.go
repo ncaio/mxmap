@@ -7,11 +7,11 @@ package main
 //
 //
 import (
+	"flag"
 	"fmt"
 	"github.com/fatih/color"
 	"net"
 	"net/smtp"
-	"os"
 )
 
 //
@@ -30,8 +30,22 @@ func banner() {
 //
 //
 func main() {
+	//
+	//
+	//
 	banner()
-	domain := os.Args[1]
+	//
+	//
+	//
+	wp := flag.String("domain", "localhost", "a string")
+	flag.Parse()
+	//
+	//
+	//
+	domain := *wp
+	//
+	//
+	//
 	fmt.Println("Searching for MX records...")
 	mx, treta := net.LookupMX(domain)
 	if treta != nil {
