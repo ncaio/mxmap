@@ -1,10 +1,12 @@
 # mxmap
 
-PS: x86_64 binary
+**PS: x86_64 binary**
 
+~~~~
 ./mxmap --domain=domain.tld
 or
 ./mxmap -domain=domain.tld
+~~~~
 
 ex:
 ~~~~
