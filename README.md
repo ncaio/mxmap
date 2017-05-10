@@ -2,11 +2,13 @@
 
 PS: x86_64 binary
 
-./mxmap domain.com
+./mxmap --domain=domain.tld
+or
+./mxmap -domain=domain.tld
 
 ex:
 ~~~~
-./mxmap.go superonlineshop.com.br
+./mxmap.go --domain=superonlineshop.com.br
 
 ------------------------------------------------------
 [- MXMAP by ncaio -]
