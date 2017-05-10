@@ -1,12 +1,23 @@
 # mxmap
 
-PS: x86_64 binary
+Mxmap is a simple smtp scan for tasks like:
+Open relay test;
+VRFY ENUM test;
+RCPT ENUM test.
 
-./mxmap domain.com
+All ENUM tests has 2 process. First one a test with domain and second one without. Basicly you don't need a dicionary file for it. mxmap use postmaster account for that =]. From the domain address, mxmap is able to find all mx records. 
+
+**PS: x86_64 binary**
+
+~~~~
+./mxmap --domain=domain.tld
+or
+./mxmap -domain=domain.tld
+~~~~
 
 ex:
 ~~~~
-./mxmap.go superonlineshop.com.br
+./mxmap.go --domain=superonlineshop.com.br
 
 ------------------------------------------------------
 [- MXMAP by ncaio -]
