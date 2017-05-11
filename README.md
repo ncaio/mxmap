@@ -6,15 +6,29 @@ VRFY ENUM test;
 RCPT ENUM test;
 Internal spoof attack.
 
-All ENUM tests has 2 process. First one a test with domain and second one without. Basicly you don't need a dicionary file for it. mxmap use postmaster account for that =]. From the domain address, mxmap is able to find all mx records. If RCPT ENUM is possible then mxmap will try to do a Internal spoof attack, sending a email with BODY "[- MXMAP SPOOFING TEST -]" from postmaster(+domain) to postmaster(+domain).
+All ENUM tests has 2 process. First one a test with domain and second one without. Basicly you don't need a dicionary file for it. mxmap use postmaster account for that =]. From the domain address, mxmap is able to find all mx records. If RCPT ENUM is possible then mxmap will try to do a Internal spoof attack, sending a email with BODY "[- MXMAP SPOOFING TEST -]" from postmaster(+domain) to postmaster(+domain). But if you want, use --user=user flag to change it.
 
 **PS: x86_64 binary**
+
+**Basic usage** 
+
+Default user is postmaster
 
 ~~~~
 ./mxmap --domain=domain.tld
 or
 ./mxmap -domain=domain.tld
 ~~~~
+
+**Changing user name**
+
+~~~~
+./mxmap --domain=domain.tld --user=abuse
+or
+./mxmap -domain=domain.tld -user=abuse
+~~~~
+
+**OUTPUT**
 
 ex:
 ~~~~
