@@ -94,7 +94,7 @@ func main() {
 			//
 			//	VRFY WITHOUT DOMAIN TEST
 			//
-			fmt.Print("Testing VRFY postmaster: ")
+			fmt.Print("Testing VRFY " + user + ": ")
 			vd := c.Verify(user)
 			if vd != nil {
 				color.Green(" [- VRFY disallowed -]")
@@ -127,7 +127,7 @@ func main() {
 			//
 			//	RCPT ENUM WITHOUT DOMAIN
 			//
-			fmt.Print("Testing RCPT ENUM postmaster: ")
+			fmt.Print("Testing RCPT ENUM " + user + ": ")
 			c.Mail(user + "@" + domain)
 			rd := c.Rcpt(user)
 			if rd != nil {
