@@ -39,11 +39,14 @@ func main() {
 	// Flag domain. --domain=domain.tld or -domain=domain.tld
 	//
 	wp := flag.String("domain", "localhost", "a string")
+	un := flag.String("user", "postmaster", "a string")
 	flag.Parse()
 	//
-	//	DOMAIN = ARG
+	//	DOMAIN <- ARG
+	//	USER <-ARG
 	//
 	domain := *wp
+	user := *un
 	//
 	//	FINDING MX RECORDS
 	//
@@ -71,8 +74,8 @@ func main() {
 			//	OPEN RELAY TEST
 			//
 			fmt.Print("Cheking for open relay: ")
-			c.Mail("postmaster@evildomain.com")
-			or := c.Rcpt("postmaster@evildomain.com")
+			c.Mail(user + "@evildomain.com")
+			or := c.Rcpt(user + "@evildomain.com")
 			if or != nil {
 				color.Green(" [- Access denied -]")
 			} else {
@@ -81,8 +84,8 @@ func main() {
 			//
 			//	VRFY WITH DOMAIN TEST
 			//
-			fmt.Print("Testing VRFY postmaster@" + domain + ": ")
-			v := c.Verify("postmaster@" + domain)
+			fmt.Print("Testing VRFY " + user + "@" + domain + ": ")
+			v := c.Verify(user + "@" + domain)
 			if v != nil {
 				color.Green(" [- VRFY disallowed -]")
 			} else {
@@ -92,7 +95,7 @@ func main() {
 			//	VRFY WITHOUT DOMAIN TEST
 			//
 			fmt.Print("Testing VRFY postmaster: ")
-			vd := c.Verify("postmaster")
+			vd := c.Verify(user)
 			if vd != nil {
 				color.Green(" [- VRFY disallowed -]")
 			} else {
@@ -101,28 +104,23 @@ func main() {
 			//
 			//	RCPT ENUM WITH DOMAIN
 			//
-			fmt.Print("Testing RCPT ENUM postmaster@" + domain + ": ")
-			c.Mail("postmaster@" + domain)
-			r := c.Rcpt("postmaster@" + domain)
+			fmt.Print("Testing RCPT ENUM " + user + "@" + domain + ": ")
+			c.Mail(user + "@" + domain)
+			r := c.Rcpt(user + "@" + domain)
 			if r != nil {
 				color.Green(" [- RCPT enum disallowed -]")
 			} else {
 				color.Red(" [- RCPT enum allowed -]")
 				color.Blue("... Spoofing is possible")
-				fmt.Print("Spoofing: sending mail from postmaster@" + domain + " to postmaster@" + domain)
+				fmt.Print("Spoofing: sending mail from " + user + "@" + domain + " to " + user + "@" + domain)
 				spd, err := c.Data()
 				if err != nil {
-					color.Red(" [- Data error -]")
+					color.Red(" [- Data error:  (SPD) c.Data() -]")
 				}
 				_, err = fmt.Fprintf(spd, "[- MXMAP SPOOFING TEST -]")
 				if err != nil {
-					color.Red(" [- Data error -]")
+					color.Red(" [- Data error: (SPD) body -]")
 				}
-				//defer sp.Close()
-				//buf := bytes.NewBufferString("mxmap spoofing")
-				//if _, err = buf.WriteTo(sp); err != nil {
-				//	color.Red(" Data error")
-				//}
 				color.Green(" [- Email Sended -]")
 
 			}
@@ -130,27 +128,22 @@ func main() {
 			//	RCPT ENUM WITHOUT DOMAIN
 			//
 			fmt.Print("Testing RCPT ENUM postmaster: ")
-			c.Mail("postmaster@" + domain)
-			rd := c.Rcpt("postmaster")
+			c.Mail(user + "@" + domain)
+			rd := c.Rcpt(user)
 			if rd != nil {
 				color.Green(" [- RCPT enum disallowed -]")
 			} else {
 				color.Red(" [- RCPT enum allowed -]")
 				color.Blue("... Spoofing is possible")
-				fmt.Print("Spoofing: sending mail from postmaster@" + domain + " to postmaster@" + domain)
-				//defer sp.Close()
-				//buf := bytes.NewBufferString("mxmap spoofing")
-				//if _, err = buf.WriteTo(sp); err != nil {
-				//	color.Red(" [- Data error -]")
-				//}
+				fmt.Print("Spoofing: sending mail from " + user + "@" + domain + " to " + user + "@" + domain)
 				sp, err := c.Data()
 				if err != nil {
-					color.Red(" [- Data error: SP c.Data() -]")
+					color.Red(" [- Data error: (SP) c.Data() -]")
 					os.Exit(1)
 				}
 				_, err = fmt.Fprintf(sp, "[- MXMAP SPOOFING TEST -]")
 				if err != nil {
-					color.Red(" [- Data error: SP MSG -]")
+					color.Red(" [- Data error: (SP) body -]")
 					os.Exit(1)
 				}
 
