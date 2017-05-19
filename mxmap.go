@@ -13,6 +13,7 @@ import (
 	"net"
 	"net/smtp"
 	"os"
+	"strings"
 )
 
 //
@@ -20,10 +21,10 @@ import (
 //
 func banner() {
 	fmt.Print("\033[H\033[2J")
-	fmt.Println("------------------------------------------------------")
+	fmt.Println("----------------------------------------------------------------------")
 	fmt.Println("[- MXMAP by ncaio -]")
 	fmt.Println(">> caiogore _|_ gmail _|_ com")
-	fmt.Println("------------------------------------------------------")
+	fmt.Println("----------------------------------------------------------------------")
 	fmt.Println("")
 }
 
@@ -40,6 +41,7 @@ func main() {
 	//
 	wp := flag.String("domain", "localhost", "a string")
 	un := flag.String("user", "postmaster", "a string")
+	sf := flag.String("spoof", "off", "a string")
 	flag.Parse()
 	//
 	//	DOMAIN <- ARG
@@ -47,6 +49,7 @@ func main() {
 	//
 	domain := *wp
 	user := *un
+	spoof := *sf
 	//
 	//	FINDING MX RECORDS
 	//
@@ -61,8 +64,9 @@ func main() {
 	//
 	fmt.Println("Mx found:", len(mx))
 	fmt.Println("")
+	fmt.Println("----------------------------------------------------------------------")
 	for p := range mx {
-		fmt.Print("Testing: ", mx[p].Host)
+		fmt.Print("\nTesting: ", mx[p].Host)
 		c, treta := smtp.Dial(mx[p].Host + ":25")
 		if treta != nil {
 			fmt.Println(" OMG - Connection refused.")
@@ -111,17 +115,21 @@ func main() {
 				color.Green(" [- RCPT enum disallowed -]")
 			} else {
 				color.Red(" [- RCPT enum allowed -]")
-				color.Blue("... Spoofing is possible")
-				fmt.Print("Spoofing: sending mail from " + user + "@" + domain + " to " + user + "@" + domain)
-				spd, err := c.Data()
-				if err != nil {
-					color.Red(" [- Data error:  (SPD) c.Data() -]")
+				color.Red("... Maybe a Spoofing attack is possible")
+				if strings.Contains(spoof, "on") {
+					fmt.Print("Spoofing: sending mail from " + user + "@" + domain + " to " + user + "@" + domain)
+					spd, err := c.Data()
+					if err != nil {
+						color.Red(" [- Data error:  (SPD) c.Data() -]")
+					}
+					_, err = fmt.Fprintf(spd, "[- MXMAP SPOOFING TEST -]")
+					if err != nil {
+						color.Red(" [- Data error: (SPD) body -]")
+					}
+					color.Green(" [- Email Sended -]")
+				} else {
+					color.Red("... When a enumeration is detected you can try a spoofing attack sending a e-mail from " + user + " to " + user + ". to do this, do you need --spoof=on flag. by default is off")
 				}
-				_, err = fmt.Fprintf(spd, "[- MXMAP SPOOFING TEST -]")
-				if err != nil {
-					color.Red(" [- Data error: (SPD) body -]")
-				}
-				color.Green(" [- Email Sended -]")
 
 			}
 			//
@@ -134,25 +142,30 @@ func main() {
 				color.Green(" [- RCPT enum disallowed -]")
 			} else {
 				color.Red(" [- RCPT enum allowed -]")
-				color.Blue("... Spoofing is possible")
-				fmt.Print("Spoofing: sending mail from " + user + "@" + domain + " to " + user + "@" + domain)
-				sp, err := c.Data()
-				if err != nil {
-					color.Red(" [- Data error: (SP) c.Data() -]")
-					os.Exit(1)
-				}
-				_, err = fmt.Fprintf(sp, "[- MXMAP SPOOFING TEST -]")
-				if err != nil {
-					color.Red(" [- Data error: (SP) body -]")
-					os.Exit(1)
-				}
+				color.Red("... Maybe a Spoofing attack is possible")
+				if strings.Contains(spoof, "on") {
+					fmt.Print("Spoofing: sending mail from " + user + "@" + domain + " to " + user + "@" + domain)
+					sp, err := c.Data()
+					if err != nil {
+						color.Red(" [- Data error: (SP) c.Data() -]")
+						os.Exit(1)
+					}
+					_, err = fmt.Fprintf(sp, "[- MXMAP SPOOFING TEST -]")
+					if err != nil {
+						color.Red(" [- Data error: (SP) body -]")
+						os.Exit(1)
+					}
 
-				color.Green(" [- Email Sended -]")
+					color.Green(" [- Email Sended -]")
+				} else {
+					color.Red("... When a enumeration is detected you can try a spoofing attack sending a e-mail from " + user + " to " + user + ". to do this, do you need --spoof=on flag. by default is off")
+				}
 			}
 
 		}
 		defer c.Close()
 		c.Quit()
 		fmt.Println("")
+		fmt.Println("----------------------------------------------------------------------")
 	}
 }
