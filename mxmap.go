@@ -42,6 +42,7 @@ func main() {
 	wp := flag.String("domain", "localhost", "a string")
 	un := flag.String("user", "postmaster", "a string")
 	sf := flag.String("spoof", "off", "a string")
+	he := flag.String("helo", "me", "a string")
 	flag.Parse()
 	//
 	//	DOMAIN <- ARG
@@ -50,6 +51,7 @@ func main() {
 	domain := *wp
 	user := *un
 	spoof := *sf
+	helo := *he
 	//
 	//	FINDING MX RECORDS
 	//
@@ -73,7 +75,7 @@ func main() {
 			c.Quit()
 		} else {
 			color.Green(" [- UP -]")
-			c.Hello("me")
+			c.Hello(helo)
 			//
 			//	OPEN RELAY TEST
 			//
