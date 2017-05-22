@@ -31,6 +31,88 @@ func banner() {
 //
 //
 //
+func openr(h string, u string, he string) {
+	fmt.Print("\nCheking for open relay: ")
+	c, treta := smtp.Dial(h + ":25")
+	if treta != nil {
+		fmt.Println(" OMG - Connection refused.")
+	}
+	c.Hello(he)
+	c.Mail(u)
+	or := c.Rcpt(u)
+	if or != nil {
+		color.Green(" [- Access denied -]")
+		c.Close()
+	} else {
+		color.Red(" [- Access allowed -]")
+		c.Close()
+	}
+}
+
+//
+//
+//
+func vrfy(h string, u string, he string) {
+	fmt.Print("Testing VRFY " + u + " : ")
+	c, treta := smtp.Dial(h + ":25")
+	if treta != nil {
+		fmt.Println(" OMG - Connection refused.")
+	}
+	c.Hello(he)
+	v := c.Verify(u)
+	if v != nil {
+		color.Green(" [- VRFY disallowed -]")
+		c.Close()
+	} else {
+		color.Red(" [- VRFY allowed -]")
+		c.Close()
+	}
+
+}
+
+//
+//
+//
+func rcpt(h string, u string, he string, s string) {
+	fmt.Print("Testing RCPT ENUM " + u + ": ")
+	c, treta := smtp.Dial(h + ":25")
+	if treta != nil {
+		fmt.Println(" OMG - Connection refused.")
+	}
+	c.Hello(h)
+	c.Mail(u)
+	r := c.Rcpt(u)
+	if r != nil {
+		color.Green(" [- RCPT enum disallowed -]")
+	} else {
+		color.Red(" [- RCPT enum allowed -]")
+		color.Red("... Maybe a Spoofing attack is possible")
+		if strings.Contains(s, "on") {
+			fmt.Print("Spoofing: sending mail from " + u + " to " + u)
+			spd, err := c.Data()
+			if err != nil {
+				color.Red(" [- Data error:  (SPD) c.Data() -]")
+				c.Close()
+			}
+			_, err = fmt.Fprintf(spd, "[- MXMAP SPOOFING TEST -]")
+			if err != nil {
+				color.Red(" [- Data error: (SPD) body -]")
+				c.Close()
+			}
+			color.Green(" [- Email Sended -]")
+			c.Close()
+		} else {
+			color.Red("... When a enumeration is detected you can try a spoofing attack sending a e-mail from " + u + " to " + u + ". to do this, do you need --spoof=on flag. by default is off")
+			c.Close()
+		}
+
+	}
+
+}
+
+//
+//
+//
 func main() {
 	//
 	//	HELLO
@@ -39,10 +121,11 @@ func main() {
 	//
 	// Flag domain. --domain=domain.tld or -domain=domain.tld
 	//
-	wp := flag.String("domain", "localhost", "a string")
-	un := flag.String("user", "postmaster", "a string")
-	sf := flag.String("spoof", "off", "a string")
-	he := flag.String("helo", "me", "a string")
+	wp := flag.String("domain", "localhost", "domain address. Ex: domain.tld")
+	un := flag.String("user", "postmaster", "user address. Ex: postmaster")
+	sf := flag.String("spoof", "off", "spoofing attack flag")
+	he := flag.String("helo", "me", "helo string")
+	ud := flag.String("odomain", "evildomain.com", "a domain diferent of default")
 	flag.Parse()
 	//
 	//	DOMAIN <- ARG
@@ -52,6 +135,7 @@ func main() {
 	user := *un
 	spoof := *sf
 	helo := *he
+	opend := *ud
 	//
 	//	FINDING MX RECORDS
 	//
@@ -75,98 +159,27 @@ func main() {
 			c.Quit()
 		} else {
 			color.Green(" [- UP -]")
-			c.Hello(helo)
-			//
-			//	OPEN RELAY TEST
-			//
-			fmt.Print("Cheking for open relay: ")
-			c.Mail(user + "@evildomain.com")
-			or := c.Rcpt(user + "@evildomain.com")
-			if or != nil {
-				color.Green(" [- Access denied -]")
-			} else {
-				color.Red(" [- Access allowed -]")
-			}
-			//
-			//	VRFY WITH DOMAIN TEST
-			//
-			fmt.Print("Testing VRFY " + user + "@" + domain + ": ")
-			v := c.Verify(user + "@" + domain)
-			if v != nil {
-				color.Green(" [- VRFY disallowed -]")
-			} else {
-				color.Red(" [- VRFY allowed -]")
-			}
-			//
-			//	VRFY WITHOUT DOMAIN TEST
-			//
-			fmt.Print("Testing VRFY " + user + ": ")
-			vd := c.Verify(user)
-			if vd != nil {
-				color.Green(" [- VRFY disallowed -]")
-			} else {
-				color.Red(" [- VRFY allowed -]")
-			}
-			//
-			//	RCPT ENUM WITH DOMAIN
-			//
-			fmt.Print("Testing RCPT ENUM " + user + "@" + domain + ": ")
-			c.Mail(user + "@" + domain)
-			r := c.Rcpt(user + "@" + domain)
-			if r != nil {
-				color.Green(" [- RCPT enum disallowed -]")
-			} else {
-				color.Red(" [- RCPT enum allowed -]")
-				color.Red("... Maybe a Spoofing attack is possible")
-				if strings.Contains(spoof, "on") {
-					fmt.Print("Spoofing: sending mail from " + user + "@" + domain + " to " + user + "@" + domain)
-					spd, err := c.Data()
-					if err != nil {
-						color.Red(" [- Data error:  (SPD) c.Data() -]")
-					}
-					_, err = fmt.Fprintf(spd, "[- MXMAP SPOOFING TEST -]")
-					if err != nil {
-						color.Red(" [- Data error: (SPD) body -]")
-					}
-					color.Green(" [- Email Sended -]")
-				} else {
-					color.Red("... When a enumeration is detected you can try a spoofing attack sending a e-mail from " + user + " to " + user + ". to do this, do you need --spoof=on flag. by default is off")
-				}
-
-			}
-			//
-			//	RCPT ENUM WITHOUT DOMAIN
-			//
-			fmt.Print("Testing RCPT ENUM " + user + ": ")
-			c.Mail(user + "@" + domain)
-			rd := c.Rcpt(user)
-			if rd != nil {
-				color.Green(" [- RCPT enum disallowed -]")
-			} else {
-				color.Red(" [- RCPT enum allowed -]")
-				color.Red("... Maybe a Spoofing attack is possible")
-				if strings.Contains(spoof, "on") {
-					fmt.Print("Spoofing: sending mail from " + user + "@" + domain + " to " + user + "@" + domain)
-					sp, err := c.Data()
-					if err != nil {
-						color.Red(" [- Data error: (SP) c.Data() -]")
-						os.Exit(1)
-					}
-					_, err = fmt.Fprintf(sp, "[- MXMAP SPOOFING TEST -]")
-					if err != nil {
-						color.Red(" [- Data error: (SP) body -]")
-						os.Exit(1)
-					}
-
-					color.Green(" [- Email Sended -]")
-				} else {
-					color.Red("... When a enumeration is detected you can try a spoofing attack sending a e-mail from " + user + " to " + user + ". to do this, do you need --spoof=on flag. by default is off")
-				}
-			}
-
 		}
-		defer c.Close()
-		c.Quit()
+		//
+		//	OPEN RELAY TEST
+		//
+		openr(mx[p].Host, user+"@"+opend, helo)
+		//
+		//	VRFY WITHOUT DOMAIN
+		//
+		vrfy(mx[p].Host, user, helo)
+		//
+		//	VRFY WITH DOMAIN
+		//
+		vrfy(mx[p].Host, user+"@"+domain, helo)
+		//
+		//	RCPT ENUM WITHOUT DOMAIN
+		//
+		rcpt(mx[p].Host, user, helo, spoof)
+		//
+		//	RCPT ENUM WITH DOMAIN
+		//
+		rcpt(mx[p].Host, user+"@"+domain, helo, spoof)
 		fmt.Println("")
 		fmt.Println("----------------------------------------------------------------------")
 	}
