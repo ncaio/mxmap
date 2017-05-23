@@ -109,6 +109,28 @@ func rcpt(h string, u string, he string, s string) {
 	}
 
 }
+//
+//
+//
+func bann(h string, f string){
+	if strings.Contains(f, "on"){
+		fmt.Println("\nBanner:")
+		conn, err := net.Dial("tcp", h + ":25")
+        	if err != nil {
+			fmt.Println(" OMG - Connection refused.")
+        	}
+	      	defer conn.Close()
+      		var readbuf [512]byte
+		n, _ := conn.Read(readbuf[0:])
+        	os.Stdout.Write(readbuf[0:n])
+		if strings.Contains(string(readbuf[0:n]), "Exim"){
+			fmt.Println("\nExim Vulnerability Statistics - https://www.cvedetails.com/product/19563/Exim-Exim.html?vendor_id=10919")
+		}
+		if strings.Contains(string(readbuf[0:n]), "Postfix"){
+			fmt.Println("\nPostfix Vulnerability Statistics - https://www.cvedetails.com/product/14794/Postfix-Postfix.html?vendor_id=8450")
+		}
+	}
+}
 
 //
 //
@@ -126,6 +148,7 @@ func main() {
 	sf := flag.String("spoof", "off", "spoofing attack flag")
 	he := flag.String("helo", "me", "helo string")
 	ud := flag.String("odomain", "evildomain.com", "a domain diferent of default")
+	ba := flag.String("banner", "off", "show smtp banner")
 	flag.Parse()
 	//
 	//	DOMAIN <- ARG
@@ -136,6 +159,7 @@ func main() {
 	spoof := *sf
 	helo := *he
 	opend := *ud
+	ban := *ba
 	//
 	//	FINDING MX RECORDS
 	//
@@ -149,10 +173,22 @@ func main() {
 	//	ACTION
 	//
 	fmt.Println("Mx found:", len(mx))
+	fmt.Print("Dns txt records: ")
+	txt, treta := net.LookupTXT(domain)
+	if treta != nil {
+		color.Red("TXT not found")
+	}else{
+		fmt.Println(txt)
+	}
 	fmt.Println("")
 	fmt.Println("----------------------------------------------------------------------")
 	for p := range mx {
+		//
+		//
+		//
+		ip, _ := net.LookupIP(mx[p].Host)
 		fmt.Print("\nTesting: ", mx[p].Host)
+		fmt.Print(" -> ",ip[0])
 		c, treta := smtp.Dial(mx[p].Host + ":25")
 		if treta != nil {
 			fmt.Println(" OMG - Connection refused.")
@@ -160,6 +196,10 @@ func main() {
 		} else {
 			color.Green(" [- UP -]")
 		}
+		//
+		//
+		//
+		bann(mx[p].Host, ban)
 		//
 		//	OPEN RELAY TEST
 		//
