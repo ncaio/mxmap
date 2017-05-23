@@ -36,12 +36,18 @@ or
 Basic usage 3 - [ Saying yes to a spoofing attack ]
 
 ~~~~
-/mxmap --domain=domain.tld --helo=domain.tld --odomain=example.com --spoof=on
+./mxmap --domain=domain.tld --helo=domain.tld --odomain=example.com --spoof=on
+~~~~
+
+Basic usage 4 - [ Smtp banner ]
+
+~~~~
+./mxmap --domain=domain.tld --helo=domain.tld --odomain=example.com --banner=on
 ~~~~
 
 **OUTPUT**
 
-Ex1:
+Ex1: ./mxmap --domain=nf-e.top --helo=nf-e.top --banner=on
 
 ~~~~
 ----------------------------------------------------------------------
@@ -51,10 +57,14 @@ Ex1:
 
 Searching for MX records...
 Mx found: 1
+Dns txt records: [v=spf1 a mx ip4:212.237.0.0/16 ip4:94.177.190.0/24 ip4:93.186.0.0/16 ip4:188.213.0.0/16 ~all]
 
 ----------------------------------------------------------------------
 
-Testing: nf-e.top. [- UP -]
+Testing: nf-e.top. -> 93.186.253.37 [- UP -]
+
+Banner:
+220 nf-e.top ESMTP
 
 Cheking for open relay:  [- Access denied -]
 Testing VRFY postmaster :  [- VRFY disallowed -]
