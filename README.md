@@ -1,14 +1,20 @@
 # mxmap
 
 Mxmap is a simple smtp scan for tasks like:
+SPF test;
 Open relay test;
 VRFY ENUM test;
 RCPT ENUM test;
 Internal spoof attack.
 
-All ENUM tests has 2 process. First one a test with domain and second one without. Basicly you don't need a dicionary file for it, mxmap use postmaster account for default. From the domain address, mxmap is able to find all mx records. If RCPT ENUM is possible then mxmap will try to do an internal spoof attack, sending a email with BODY "[- MXMAP SPOOFING TEST -]" from postmaster(+domain) to postmaster(+domain). But if you want, use --user=user flag to change it.
+All ENUM tests has 2 process. First, test with domain and second without. Basicly you don't need a dicionary file for it, mxmap use postmaster account by default. From the domain address, mxmap is able to find all mx records. If RCPT ENUM is possible then mxmap will try to do an internal spoof attack, sending a email with BODY "[- MXMAP SPOOFING TEST -]" from postmaster(+domain) to postmaster(+domain). But if you want, use --user=user flag to change it.
 
 **PS: x86_64 binary**
+
+** SPF Google Softail**
+
+Normaly, domain with TXT spf include:_spf.google.com has a possibility to send emails to gmail.com accounts. That is possible because Google SPF record uses Softail. 
+
 
 **Basic usage** 
 

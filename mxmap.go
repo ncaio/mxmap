@@ -109,27 +109,52 @@ func rcpt(h string, u string, he string, s string) {
 	}
 
 }
+
 //
 //
 //
-func bann(h string, f string){
-	if strings.Contains(f, "on"){
+func bann(h string, f string) {
+	if strings.Contains(f, "on") {
 		fmt.Println("\nBanner:")
-		conn, err := net.Dial("tcp", h + ":25")
-        	if err != nil {
+		conn, err := net.Dial("tcp", h+":25")
+		if err != nil {
 			fmt.Println(" OMG - Connection refused.")
-        	}
-	      	defer conn.Close()
-      		var readbuf [512]byte
+		}
+		defer conn.Close()
+		var readbuf [512]byte
 		n, _ := conn.Read(readbuf[0:])
-        	os.Stdout.Write(readbuf[0:n])
-		if strings.Contains(string(readbuf[0:n]), "Exim"){
+		os.Stdout.Write(readbuf[0:n])
+		if strings.Contains(string(readbuf[0:n]), "Exim") {
 			fmt.Println("\nExim Vulnerability Statistics - https://www.cvedetails.com/product/19563/Exim-Exim.html?vendor_id=10919")
 		}
-		if strings.Contains(string(readbuf[0:n]), "Postfix"){
+		if strings.Contains(string(readbuf[0:n]), "Postfix") {
 			fmt.Println("\nPostfix Vulnerability Statistics - https://www.cvedetails.com/product/14794/Postfix-Postfix.html?vendor_id=8450")
 		}
 	}
+}
+
+//
+//
+//
+func txtf(r []string) string {
+	for _, f := range r {
+		if strings.Contains(f, "v=spfbl1") {
+			return f
+		}
+	}
+	return "SPF not Found"
+}
+
+//
+//
+//
+func ingoo(in []string) string {
+	for _, st := range in {
+		if strings.Contains(st, "include:_spf.google.com") {
+			return "Probably you can Phishing a gmail account from this domain"
+		}
+	}
+	return "Probably you can't Phishing a gmail account from this domain"
 }
 
 //
@@ -177,10 +202,15 @@ func main() {
 	txt, treta := net.LookupTXT(domain)
 	if treta != nil {
 		color.Red("TXT not found")
-	}else{
-		fmt.Println(txt)
+	} else {
+		spf := txtf(txt)
+		fmt.Println(spf)
+		fmt.Println("")
+		fmt.Println("----------------------------------------------------------------------")
+		fmt.Print("Google SPF Softail test: ")
+		inc := ingoo(txt)
+		fmt.Println(inc)
 	}
-	fmt.Println("")
 	fmt.Println("----------------------------------------------------------------------")
 	for p := range mx {
 		//
@@ -188,7 +218,7 @@ func main() {
 		//
 		ip, _ := net.LookupIP(mx[p].Host)
 		fmt.Print("\nTesting: ", mx[p].Host)
-		fmt.Print(" -> ",ip[0])
+		fmt.Print(" -> ", ip[0])
 		c, treta := smtp.Dial(mx[p].Host + ":25")
 		if treta != nil {
 			fmt.Println(" OMG - Connection refused.")
