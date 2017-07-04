@@ -11,9 +11,9 @@ All ENUM tests has 2 process. First, test with domain and second without. Basicl
 
 **PS: x86_64 binary**
 
-** SPF Google Softail**
+**SPF Google Softail**
 
-Normaly, domain with TXT spf include:_spf.google.com has a possibility to send emails to gmail.com accounts. That is possible because Google SPF record uses Softail. 
+Normaly, domain with TXT spf include:_spf.google.com has a possibility to send emails to gmail.com accounts. That is possible because Google SPF record uses Softail. Mr. Vitaly Salnikov wrote about it in http://hackanddefense.com/blog/how-to-send-fake-emails/index.html
 
 
 **Basic usage** 
