@@ -12,10 +12,6 @@ All ENUM tests has 2 process. First, test with domain and second without. Basicl
 
 **PS: x86_64 binary**
 
-**SPF Google Softail**
-
-Normaly, domain with TXT spf include:_spf.google.com record has a possibility to send emails to gmail.com accounts. That's should be possible when a domain don't has dmarc set up or dmarc set up with p=none and/or sp=none in addition of Google SPF record uses Softail. Mr. Vitaly Salnikov wrote about it in http://hackanddefense.com/blog/how-to-send-fake-emails/index.html
-
 **Basic usage** 
 
 Basic usage 1 - [ Simple scan ]
@@ -87,3 +83,12 @@ Testing RCPT ENUM postmaster@zeplan.br.com:  [- RCPT enum allowed -]
 
 ----------------------------------------------------------------------
 ~~~~
+
+
+References and regards:
+
+*  Anti-Spam Recommendations for SMTP MTAs -> https://tools.ietf.org/html/rfc2505
+*  Go -> https://golang.org
+*  Color -> github.com/fatih/color
+*  Resolution of the Sender Policy Framework (SPF) and Sender ID Experiments -> https://tools.ietf.org/html/rfc6686
+*  Vitaly Salnikov - How to send fake emails -> http://hackanddefense.com/blog/how-to-send-fake-emails/index.html
