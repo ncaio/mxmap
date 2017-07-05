@@ -53,7 +53,7 @@ Basic usage 4 - [ Smtp banner ]
 
 **OUTPUT**
 
-Ex1: ./mxmap --domain=nf-e.top --helo=nf-e.top --banner=on
+Ex1: ./mxmap --domain=zeplan.br.com --helo=mail.zeplan.br.com --banner=on
 
 ~~~~
 ----------------------------------------------------------------------
@@ -63,7 +63,7 @@ Ex1: ./mxmap --domain=nf-e.top --helo=nf-e.top --banner=on
 
 Searching for MX records...
 Mx found: 1
-Dns txt records: [v=spf1 ip4:62.210.164.224/28 ip4:195.154.149.64/27 ip4:62.210.118.192/27 ip4:154.44.178.0/23 include:cmailsys.com ~all google-site-verification=soSaE0OvzQ6QyoYwC0HNanFQFoazCOks31_5toZ5Bkk]
+Dns txt records: [v=spf1 ip4:62.210.164.224/28 ip4:195.154.149.64/27 ip4:62.210.118.192/27 ip4:154.44.178.0/23 include:cmailsys.com ~all]
 
 ----------------------------------------------------------------------
 SPF test: [- SPF Flag Found -]
@@ -74,10 +74,16 @@ Dns txt records: [v=DMARC1; p=none; rua=mailto:dmarc@zeplan.br.com]
 
 Testing: caloga-pub.caloga.com. -> 195.154.149.90 [- UP -]
 
+Banner:
+220 caloga-pub.caloga.com ESMTP Exim 4.84_2 Wed, 05 Jul 2017 21:34:40 +0200
+
+Exim Vulnerability Statistics - https://www.cvedetails.com/product/19563/Exim-Exim.html?vendor_id=10919
+
 Cheking for open relay:  [- Access denied -]
 Testing VRFY postmaster :  [- VRFY disallowed -]
 Testing VRFY postmaster@zeplan.br.com :  [- VRFY disallowed -]
 Testing RCPT ENUM postmaster:  [- RCPT enum disallowed -]
 Testing RCPT ENUM postmaster@zeplan.br.com:  [- RCPT enum allowed -]
+
 ----------------------------------------------------------------------
 ~~~~
