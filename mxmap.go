@@ -86,7 +86,6 @@ func rcpt(h string, u string, he string, s string) {
 		color.Green(" [- RCPT enum disallowed -]")
 	} else {
 		color.Red(" [- RCPT enum allowed -]")
-		color.Red("... Maybe a Spoofing attack is possible")
 		if strings.Contains(s, "on") {
 			fmt.Print("Spoofing: sending mail from " + u + " to " + u)
 			spd, err := c.Data()
@@ -101,11 +100,7 @@ func rcpt(h string, u string, he string, s string) {
 			}
 			color.Green(" [- Email Sended -]")
 			c.Close()
-		} else {
-			color.Red("... When a enumeration is detected you can try a spoofing attack sending a e-mail from " + u + " to " + u + ". to do this, do you need --spoof=on flag. by default is off")
-			c.Close()
 		}
-
 	}
 
 }
