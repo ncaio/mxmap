@@ -63,24 +63,21 @@ Ex1: ./mxmap --domain=nf-e.top --helo=nf-e.top --banner=on
 
 Searching for MX records...
 Mx found: 1
-Dns txt records: [v=spf1 a mx ip4:212.237.0.0/16 ip4:94.177.190.0/24 ip4:93.186.0.0/16 ip4:188.213.0.0/16 ~all]
+Dns txt records: [v=spf1 ip4:62.210.164.224/28 ip4:195.154.149.64/27 ip4:62.210.118.192/27 ip4:154.44.178.0/23 include:cmailsys.com ~all google-site-verification=soSaE0OvzQ6QyoYwC0HNanFQFoazCOks31_5toZ5Bkk]
 
 ----------------------------------------------------------------------
+SPF test: [- SPF Flag Found -]
+DMARC test: [- Dmarc TXT found -]
+Dns txt records: [v=DMARC1; p=none; rua=mailto:dmarc@zeplan.br.com]
+[- DMARC 'p' flag is none -]
+----------------------------------------------------------------------
 
-Testing: nf-e.top. -> 93.186.253.37 [- UP -]
-
-Banner:
-220 nf-e.top ESMTP
+Testing: caloga-pub.caloga.com. -> 195.154.149.90 [- UP -]
 
 Cheking for open relay:  [- Access denied -]
 Testing VRFY postmaster :  [- VRFY disallowed -]
-Testing VRFY postmaster@nf-e.top :  [- VRFY disallowed -]
-Testing RCPT ENUM postmaster:  [- RCPT enum allowed -]
-... Maybe a Spoofing attack is possible
-... When a enumeration is detected you can try a spoofing attack sending a e-mail from postmaster to postmaster. to do this, do you need --spoof=on flag. by default is off
-Testing RCPT ENUM postmaster@nf-e.top:  [- RCPT enum allowed -]
-... Maybe a Spoofing attack is possible
-... When a enumeration is detected you can try a spoofing attack sending a e-mail from postmaster@nf-e.top to postmaster@nf-e.top. to do this, do you need --spoof=on flag. by default is off
-
+Testing VRFY postmaster@zeplan.br.com :  [- VRFY disallowed -]
+Testing RCPT ENUM postmaster:  [- RCPT enum disallowed -]
+Testing RCPT ENUM postmaster@zeplan.br.com:  [- RCPT enum allowed -]
 ----------------------------------------------------------------------
 ~~~~
