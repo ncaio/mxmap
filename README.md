@@ -2,6 +2,7 @@
 
 Mxmap is a simple smtp scan for tasks like:
 SPF test;
+Dmarc test;
 Open relay test;
 VRFY ENUM test;
 RCPT ENUM test;
@@ -13,8 +14,7 @@ All ENUM tests has 2 process. First, test with domain and second without. Basicl
 
 **SPF Google Softail**
 
-Normaly, domain with TXT spf include:_spf.google.com has a possibility to send emails to gmail.com accounts. That is possible because Google SPF record uses Softail. Mr. Vitaly Salnikov wrote about it in http://hackanddefense.com/blog/how-to-send-fake-emails/index.html
-
+Normaly, domain with TXT spf include:_spf.google.com record has a possibility to send emails to gmail.com accounts. That's should be possible when a domain don't has dmarc set up or dmarc set up with p=none and/or sp=none in addition of Google SPF record uses Softail. Mr. Vitaly Salnikov wrote about it in http://hackanddefense.com/blog/how-to-send-fake-emails/index.html
 
 **Basic usage** 
 
