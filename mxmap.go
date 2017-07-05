@@ -136,13 +136,38 @@ func bann(h string, f string) {
 //
 //
 //
-func txtf(r []string) string {
-	for _, f := range r {
-		if strings.Contains(f, "v=spfbl1") {
-			return f
+func txtf(r []string) {
+	fmt.Print("SPF test: ")
+	for _, flag := range r {
+		if strings.Contains(flag, "v=spf1") {
+			color.Green("[- SPF Flag Found -]")
 		}
 	}
-	return "SPF not Found"
+}
+
+//
+//
+//
+func dmarc(r string) {
+	fmt.Print("DMARC test: ")
+	txt, treta := net.LookupTXT("_dmarc." + r)
+	if treta != nil {
+		color.Red("[- Dmarc TXT not found -]")
+	} else {
+		color.Green("[- Dmarc TXT found -]")
+		fmt.Print("Dns txt records: ")
+		fmt.Println(txt)
+
+		for _, flag := range txt {
+			if strings.Contains(flag, "p=none") {
+				color.Red("[- DMARC 'p' flag is none -]")
+			}
+			if strings.Contains(flag, "sp=none") {
+				color.Red("[- DMARC 'sp' flag is none -]")
+			}
+		}
+	}
+
 }
 
 //
@@ -203,13 +228,16 @@ func main() {
 	if treta != nil {
 		color.Red("TXT not found")
 	} else {
-		spf := txtf(txt)
-		fmt.Println(spf)
+		fmt.Println(txt)
 		fmt.Println("")
 		fmt.Println("----------------------------------------------------------------------")
-		fmt.Print("Google SPF Softail test: ")
-		inc := ingoo(txt)
-		fmt.Println(inc)
+		txtf(txt)
+		dmarc(domain)
+		//fmt.Println("")
+		//fmt.Println("----------------------------------------------------------------------")
+		//fmt.Print("Google SPF Softail test: ")
+		//inc := ingoo(txt)
+		//fmt.Println(inc)
 	}
 	fmt.Println("----------------------------------------------------------------------")
 	for p := range mx {
