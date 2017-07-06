@@ -3,6 +3,7 @@
 Mxmap is a simple smtp scan for tasks like:
 SPF test;
 Dmarc test;
+Dkim test;
 Open relay test;
 VRFY ENUM test;
 RCPT ENUM test;
