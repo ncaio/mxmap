@@ -168,13 +168,16 @@ func dmarc(r string) {
 //
 //
 //
-func ingoo(in []string) string {
-	for _, st := range in {
-		if strings.Contains(st, "include:_spf.google.com") {
-			return "Probably you can Phishing a gmail account from this domain"
-		}
+func dkim(in string) {
+	fmt.Print("Google DKIM Selector test: ")
+	txt, treta := net.LookupTXT("google._domainkey." + in)
+	if treta != nil {
+		color.Red("[- DKIM TXT not found -]")
+	} else {
+		color.Green("[- DKIM TXT found -]")
+		fmt.Print("DKIM txt records: ")
+		fmt.Println(txt)
 	}
-	return "Probably you can't Phishing a gmail account from this domain"
 }
 
 //
@@ -228,11 +231,7 @@ func main() {
 		fmt.Println("----------------------------------------------------------------------")
 		txtf(txt)
 		dmarc(domain)
-		//fmt.Println("")
-		//fmt.Println("----------------------------------------------------------------------")
-		//fmt.Print("Google SPF Softail test: ")
-		//inc := ingoo(txt)
-		//fmt.Println(inc)
+		dkim(domain)
 	}
 	fmt.Println("----------------------------------------------------------------------")
 	for p := range mx {
