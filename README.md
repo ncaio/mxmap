@@ -67,12 +67,13 @@ SPF test: [- SPF Flag Found -]
 DMARC test: [- Dmarc TXT found -]
 Dns txt records: [v=DMARC1; p=none; rua=mailto:dmarc@zeplan.br.com]
 [- DMARC 'p' flag is none -]
+Google DKIM Selector test: [- DKIM TXT not found -]
 ----------------------------------------------------------------------
 
 Testing: caloga-pub.caloga.com. -> 195.154.149.90 [- UP -]
 
 Banner:
-220 caloga-pub.caloga.com ESMTP Exim 4.84_2 Wed, 05 Jul 2017 21:34:40 +0200
+220 caloga-pub.caloga.com ESMTP Exim 4.84_2 Thu, 06 Jul 2017 16:20:03 +0200
 
 Exim Vulnerability Statistics - https://www.cvedetails.com/product/19563/Exim-Exim.html?vendor_id=10919
 
