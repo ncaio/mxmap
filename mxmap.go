@@ -138,6 +138,18 @@ func txtf(r []string) {
 		if strings.Contains(flag, "v=spf1") {
 			color.Green("[- SPF Flag Found -]")
 		}
+		if strings.Contains(flag, "-all") {
+			color.Green("* [- SPF FAIL -]")
+		}
+		if strings.Contains(flag, "~all") {
+			color.Green("* [- SPF SOFTFAIL -]")
+		}
+		if strings.Contains(flag, "?all") {
+			color.Green("* [- SPF NEUTRAL -]")
+		}
+		if strings.Contains(flag, "+all"){
+			color.Red("* [- SPF PASS -]")
+		}
 	}
 }
 
@@ -156,10 +168,10 @@ func dmarc(r string) {
 
 		for _, flag := range txt {
 			if strings.Contains(flag, "p=none") {
-				color.Red("[- DMARC 'p' flag is none -]")
+				color.Red("* [- DMARC 'p' flag is none -]")
 			}
 			if strings.Contains(flag, "sp=none") {
-				color.Red("[- DMARC 'sp' flag is none -]")
+				color.Red("* [- DMARC 'sp' flag is none -]")
 			}
 		}
 	}
@@ -192,10 +204,10 @@ func rsa(r string) {
 	p := r
 	_, err := base64.StdEncoding.DecodeString(p)
 	if err != nil {
-		color.Red("[- Not valid DKIM key record -]")
+		color.Red("* [- Not valid DKIM key record -]")
 	}
-	color.Green("[- Valid DKIM key record -]")
-	fmt.Print("Key: ")
+	color.Green("* [- Valid DKIM key record -]")
+	fmt.Print("* Key: ")
 	fmt.Println(p)
 }
 
