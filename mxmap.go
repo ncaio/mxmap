@@ -139,16 +139,16 @@ func txtf(r []string) {
 			color.Green("[- SPF Flag Found -]")
 		}
 		if strings.Contains(flag, "-all") {
-			color.Green("* [- SPF FAIL -]")
+			color.Green("* [- Sender-ID Result: FAIL -]")
 		}
 		if strings.Contains(flag, "~all") {
-			color.Green("* [- SPF SOFTFAIL -]")
+			color.Green("* [- Sender-ID Result: SOFTFAIL -]")
 		}
 		if strings.Contains(flag, "?all") {
-			color.Green("* [- SPF NEUTRAL -]")
+			color.Green("* [- Sender-ID Result: NEUTRAL -]")
 		}
 		if strings.Contains(flag, "+all"){
-			color.Red("* [- SPF PASS -]")
+			color.Red("* [- Sender-ID Result: PASS -]")
 		}
 	}
 }
