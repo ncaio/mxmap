@@ -63,17 +63,26 @@ Mx found: 1
 Dns txt records: [v=spf1 ip4:62.210.164.224/28 ip4:195.154.149.64/27 ip4:62.210.118.192/27 ip4:154.44.178.0/23 include:cmailsys.com ~all]
 
 ----------------------------------------------------------------------
+
 SPF test: [- SPF Flag Found -]
+* [- Sender-ID Result: SOFTFAIL -]
+
+----------------------------------------------------------------------
+
 DMARC test: [- Dmarc TXT found -]
 Dns txt records: [v=DMARC1; p=none; rua=mailto:dmarc@zeplan.br.com]
-[- DMARC 'p' flag is none -]
+* [- DMARC 'p' flag is none -]
+
+----------------------------------------------------------------------
+
 Google DKIM Selector test: [- DKIM TXT not found -]
+
 ----------------------------------------------------------------------
 
 Testing: caloga-pub.caloga.com. -> 195.154.149.90 [- UP -]
 
 Banner:
-220 caloga-pub.caloga.com ESMTP Exim 4.84_2 Thu, 06 Jul 2017 16:20:03 +0200
+220 caloga-pub.caloga.com ESMTP Exim 4.84_2 Sun, 09 Jul 2017 20:17:38 +0200
 
 Exim Vulnerability Statistics - https://www.cvedetails.com/product/19563/Exim-Exim.html?vendor_id=10919
 
