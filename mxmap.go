@@ -7,6 +7,7 @@ package main
 //
 //
 import (
+	"encoding/base64"
 	"flag"
 	"fmt"
 	"github.com/fatih/color"
@@ -175,9 +176,27 @@ func dkim(in string) {
 		color.Red("[- DKIM TXT not found -]")
 	} else {
 		color.Green("[- DKIM TXT found -]")
-		fmt.Print("DKIM txt records: ")
-		fmt.Println(txt)
+		for _, f := range txt {
+			if strings.Contains(f, "; p=") {
+				s := strings.Split(f, ";")
+				rsa(strings.Trim(s[2], " p="))
+			}
+		}
 	}
+}
+
+//
+//
+//
+func rsa(r string) {
+	p := r
+	_, err := base64.StdEncoding.DecodeString(p)
+	if err != nil {
+		color.Red("[- Not valid DKIM key record -]")
+	}
+	color.Green("[- Valid DKIM key record -]")
+	fmt.Print("Key: ")
+	fmt.Println(p)
 }
 
 //
@@ -229,9 +248,17 @@ func main() {
 		fmt.Println(txt)
 		fmt.Println("")
 		fmt.Println("----------------------------------------------------------------------")
+		fmt.Println("")
 		txtf(txt)
+		fmt.Println("")
+		fmt.Println("----------------------------------------------------------------------")
+		fmt.Println("")
 		dmarc(domain)
+		fmt.Println("")
+		fmt.Println("----------------------------------------------------------------------")
+		fmt.Println("")
 		dkim(domain)
+		fmt.Println("")
 	}
 	fmt.Println("----------------------------------------------------------------------")
 	for p := range mx {
