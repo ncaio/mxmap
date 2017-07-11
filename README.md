@@ -102,4 +102,5 @@ References and regards:
 *  Go -> https://golang.org
 *  Color -> github.com/fatih/color
 *  Resolution of the Sender Policy Framework (SPF) and Sender ID Experiments -> https://tools.ietf.org/html/rfc6686
+*  DomainKeys Identified Mail (DKIM) Signatures -> https://tools.ietf.org/html/rfc6376
 *  Vitaly Salnikov - How to send fake emails -> http://hackanddefense.com/blog/how-to-send-fake-emails/index.html
