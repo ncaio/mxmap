@@ -126,6 +126,12 @@ func bann(h string, f string) {
 		if strings.Contains(string(readbuf[0:n]), "Postfix") {
 			fmt.Println("\nPostfix Vulnerability Statistics - https://www.cvedetails.com/product/14794/Postfix-Postfix.html?vendor_id=8450")
 		}
+		if strings.Contains(string(readbuf[0:n]), "Haraka") {
+			fmt.Println("\nHaraka - CVE 2016-1000282 - Command injection Haraka node.js mailserver < 2.8.9")
+		}
+		if strings.Contains(string(readbuf[0:n]), "Sendmail") {
+			fmt.Println("\nSendmail Vulnerability Statistics - https://www.cvedetails.com/vulnerability-list/vendor_id-31/Sendmail.html")
+		}
 	}
 }
 
@@ -147,7 +153,7 @@ func txtf(r []string) {
 		if strings.Contains(flag, "?all") {
 			color.Green("* [- Sender-ID Result: NEUTRAL -]")
 		}
-		if strings.Contains(flag, "+all"){
+		if strings.Contains(flag, "+all") {
 			color.Red("* [- Sender-ID Result: PASS -]")
 		}
 	}
