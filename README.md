@@ -48,6 +48,12 @@ Basic usage 4 - [ Smtp banner ]
 ./mxmap --domain=domain.tld --helo=domain.tld --odomain=example.com --banner=on
 ~~~~
 
+Basic usage 5 - [ DKIM selector ]
+
+~~~~
+./mxmap --domain=domain.tld --selector=selector
+~~~~
+
 **OUTPUT**
 
 Ex1: ./mxmap --domain=zeplan.br.com --helo=mail.zeplan.br.com --banner=on
