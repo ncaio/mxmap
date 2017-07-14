@@ -187,8 +187,8 @@ func dmarc(r string) {
 //
 //
 //
-func dkim(in string) {
-	fmt.Print("Google DKIM Selector test: ")
+func dkim(in string, sele string) {
+	fmt.Print(sele + " DKIM Selector test: ")
 	txt, treta := net.LookupTXT("google._domainkey." + in)
 	if treta != nil {
 		color.Red("[- DKIM TXT not found -]")
@@ -234,6 +234,7 @@ func main() {
 	he := flag.String("helo", "me", "helo string")
 	ud := flag.String("odomain", "evildomain.com", "a domain diferent of default")
 	ba := flag.String("banner", "off", "show smtp banner")
+	se := flag.String("selector", "google", "Selector arbitrary name")
 	flag.Parse()
 	//
 	//	DOMAIN <- ARG
@@ -245,6 +246,7 @@ func main() {
 	helo := *he
 	opend := *ud
 	ban := *ba
+	sel := *se
 	//
 	//	FINDING MX RECORDS
 	//
@@ -275,7 +277,7 @@ func main() {
 		fmt.Println("")
 		fmt.Println("----------------------------------------------------------------------")
 		fmt.Println("")
-		dkim(domain)
+		dkim(domain, sel)
 		fmt.Println("")
 	}
 	fmt.Println("----------------------------------------------------------------------")
