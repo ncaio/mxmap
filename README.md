@@ -1,22 +1,25 @@
 # mxmap
 
 Mxmap is a simple smtp scan for tasks like:
-SPF test;
-Dmarc test;
-Google DKIM Selector test;
-Open relay test;
-VRFY ENUM test;
-RCPT ENUM test;
-Internal spoof attack.
 
-All ENUM tests has 2 process. First, test with domain and second without. Basicly you don't need a dicionary file for it, mxmap use postmaster account by default. From the domain address, mxmap is able to find all mx records. If RCPT ENUM is possible then mxmap will try to do an internal spoof attack, sending a email with BODY "[- MXMAP SPOOFING TEST -]" from postmaster(+domain) to postmaster(+domain). But if you want, use --user=user flag to change it.
+  * SPF test;
+  * Dmarc test;
+  * DKIM Selector test;
+  * Open relay test;
+  * VRFY ENUM test;
+  * RCPT ENUM test;
+  * Internal spoof attack.
+
+All ENUM tests has 2 process. First test with domain and second without. Basicly you don't need a dicionary file for it, mxmap use postmaster account by default. From the domain address, mxmap is able to find all mx records. If RCPT ENUM is possible, then mxmap will try to do an internal spoof attack, sending an email with BODY "[- MXMAP SPOOFING TEST -]" from postmaster(+domain) to postmaster(+domain). But if you want, use --user=user flag to change it.
 
 **PS: x86_64 binary**
 
-**Basic usage** 
+**Basic usage examples**
 
-Basic usage 1 - [ Simple scan ]
-helo flag is recommended in all cases
+[- Theses examples assume you have installed the mxmap. -]
+
+Basic usage 1 - [ Run simple scan ]
+[- helo flag is recommended in all cases -]
 
 ~~~~
 ./mxmap --domain=domain.tld --helo=domain.tld
@@ -29,6 +32,7 @@ Basic usage 2 - [ Changing user name ]
 ~~~~
 
 Basic usage 3 - [ Changing a different open relay domain (and user) ]
+[- Default is evildomain.com -]
 
 ~~~~
 ./mxmap --domain=domain.tld --helo=domain.tld --odomain=example.com
@@ -49,6 +53,7 @@ Basic usage 4 - [ Smtp banner ]
 ~~~~
 
 Basic usage 5 - [ DKIM selector ]
+[- Default is google -]
 
 ~~~~
 ./mxmap --domain=domain.tld --selector=selector
