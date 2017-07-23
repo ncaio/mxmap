@@ -132,8 +132,8 @@ func bann(h string, f string) {
 		if strings.Contains(string(readbuf[0:n]), "Sendmail") {
 			fmt.Println("\nSendmail Vulnerability Statistics - https://www.cvedetails.com/vulnerability-list/vendor_id-31/Sendmail.html")
 		}
-		if strings.Contains(string(readbuf[0:n]), "EG5500") {
-			fmt.Println("\n McAfee Email and Web Security or McAfee Email Gateway - Vulnerability Statistics - https://www.cvedetails.com/vulnerability-list/vendor_id-345/product_id-17309/Mcafee-Email-Gateway.html")
+		if strings.Contains(string(readbuf[0:n]), "EG5") {
+			fmt.Println("\nMcAfee Email and Web Security or McAfee Email Gateway - Vulnerability Statistics - https://www.cvedetails.com/vulnerability-list/vendor_id-345/product_id-17309/Mcafee-Email-Gateway.html")
 		}
 	}
 }
