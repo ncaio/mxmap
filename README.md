@@ -10,7 +10,7 @@ Mxmap is a simple smtp scan for tasks like:
   * RCPT ENUM test;
   * Internal spoof attack.
 
-All ENUM tests have 2 ways. First, a test with domain and a second, without. Basically you don't need a dictionary file for it, mxmap uses a postmaster account by default. From the domain address, mxmap is able to find all related mx records. In the case of RCPT ENUM condition, then mxmap will try to do an internal spoof attack, sending an email with BODY "[- MXMAP SPOOFING TEST -]" from postmaster(+domain) to postmaster(+domain). But if you want to change the default user, you can do it using the --user=user flag.
+PS: All ENUM tests have 2 ways. First, a test with domain and a second, without. Basically you don't need a dictionary file for it, mxmap uses a postmaster account by default. From the domain address, mxmap is able to find all related mx records. In the case of RCPT ENUM condition, then mxmap will try to do an internal spoof attack, sending an email with BODY "[- MXMAP SPOOFING TEST -]" from postmaster(+domain) to postmaster(+domain). But if you want to change the default user, you can do it using the --user=user flag.
 
 **PS: x86_64 binary**
 
@@ -28,35 +28,35 @@ Basic usage 1 - [ Run simple scan ]
 Basic usage 2 - [ Changing user name ]
 
 ~~~~
-./mxmap --domain=domain.tld --helo=domain.tld --user=abuse
+./mxmap --domain=domain.tld --helo=domain.tld --user=abuse --helo=domain.tld
 ~~~~
 
 Basic usage 3 - [ Changing a different open relay domain (and user) ]
 [- Default is evildomain.com -]
 
 ~~~~
-./mxmap --domain=domain.tld --helo=domain.tld --odomain=example.com
+./mxmap --domain=domain.tld --helo=domain.tld --odomain=example.com --helo=domain.tld
 or
-./mxmap -domain=domain.tld --helo=domain.tld -odomain=example.com --user=root
+./mxmap -domain=domain.tld --helo=domain.tld -odomain=example.com --user=root --helo=domain.tld
 ~~~~
 
 Basic usage 3 - [ Saying yes to a spoofing attack ]
 
 ~~~~
-./mxmap --domain=domain.tld --helo=domain.tld --odomain=example.com --spoof=on
+./mxmap --domain=domain.tld --helo=domain.tld --odomain=example.com --spoof=on --helo=domain.tld
 ~~~~
 
 Basic usage 4 - [ Smtp banner ]
 
 ~~~~
-./mxmap --domain=domain.tld --helo=domain.tld --odomain=example.com --banner=on
+./mxmap --domain=domain.tld --helo=domain.tld --odomain=example.com --banner=on --helo=domain.tld
 ~~~~
 
 Basic usage 5 - [ DKIM selector ]
 [- Default is google -]
 
 ~~~~
-./mxmap --domain=domain.tld --selector=selector
+./mxmap --domain=domain.tld --selector=selector --helo=domain.tld
 ~~~~
 
 **OUTPUT**
