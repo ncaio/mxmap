@@ -10,7 +10,7 @@ Mxmap is a simple smtp scan for tasks like:
   * RCPT ENUM test;
   * Internal spoof attack.
 
-All ENUM tests has 2 process. First test with domain and second without. Basicly you don't need a dicionary file for it, mxmap use postmaster account by default. From the domain address, mxmap is able to find all mx records. If RCPT ENUM is possible, then mxmap will try to do an internal spoof attack, sending an email with BODY "[- MXMAP SPOOFING TEST -]" from postmaster(+domain) to postmaster(+domain). But if you want, use --user=user flag to change it.
+All ENUM tests have 2 ways. First, a test with domain and a second, without. Basically you don't need a dictionary file for it, mxmap uses a postmaster account by default. From the domain address, mxmap is able to find all related mx records. In the case of RCPT ENUM condition, then mxmap will try to do an internal spoof attack, sending an email with BODY "[- MXMAP SPOOFING TEST -]" from postmaster(+domain) to postmaster(+domain). But if you want to change the default user, you can do it using the --user=user flag.
 
 **PS: x86_64 binary**
 
